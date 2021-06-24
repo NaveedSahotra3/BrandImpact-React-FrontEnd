@@ -1,0 +1,204 @@
+/* Popup box BEGIN */
+.hover_bkgr_fricc{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+}
+.hover_bkgr_fricc .helper{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_fricc > div {
+    background-color: #fff;
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    max-width: 466px;
+    min-height: 100px;
+    vertical-align: middle;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+    padding: 32px 0 0 0;
+}
+.popupCloseButton {
+    background-color: #fff;
+    border: 3px solid #999;
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-weight: bold;
+    position: absolute;
+    top: -16px;
+    right: -15px;
+    font-size: 25px;
+    line-height: 25px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.popupCloseButton:hover {
+    background-color: #ccc;
+}
+.trigger_popup_fricc {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
+/* Popup box BEGIN */
+
+@media (min-width: 768px) {
+  img {
+    max-width:auto;
+  }
+  
+}
+
+
+
+
+
+* Popup box BEGIN */
+.hover_bkgr_nomni{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+}
+.hover_bkgr_nomni .helperr{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_nomni > div {
+    background-color: #fff;
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    max-width: 100%;
+    min-height: 100px;
+    vertical-align: middle;
+    width: 42%;
+    position: relative;
+    border-radius: 8px;
+    padding: 32px 0 0 0;
+}
+.popupCloseButton_nomni {
+    background-color: #fff;
+    border: 3px solid #999;
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-weight: bold;
+    position: absolute;
+    top: -16px;
+    right: -15px;
+    font-size: 25px;
+    line-height: 25px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.popupCloseButton_nomni:hover {
+    background-color: #ccc;
+}
+.trigger_popup_nomni {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
+/* Popup box BEGIN */
+
+
+* Popup box BEGIN for Video */
+.hover_bkgr_vdo{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+}
+.hover_bkgr_vdo .helperr{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_vdo > div {
+    background-color: #fff;
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    max-width: 466px;
+    min-height: 100px;
+    vertical-align: middle;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+    padding: 32px 0 0 0;
+}
+.popupCloseButton_vdo {
+    background-color: #fff;
+    border: 3px solid #999;
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-weight: bold;
+    position: absolute;
+    top: -16px;
+    right: -15px;
+    font-size: 25px;
+    line-height: 25px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.popupCloseButton_vdo:hover {
+    background-color: #ccc;
+}
+.trigger_popup_vdo {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
+/* Popup box BEGIN */
+
+@media only screen and (max-width: 768px) {
+	.hover_bkgr_nomni > div {
+		background-color: #fff;
+		box-shadow: 10px 10px 60px #555;
+		display: inline-block;
+		height: auto;
+		max-width: 100%;
+		min-height: 100px;
+		vertical-align: middle;
+		width: 90%;
+		position: relative;
+		border-radius: 8px;
+		padding: 32px 0 0 0;
+	}
+}
