@@ -1,10 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
-import About from '../about/about'
+import axios from "axios";
+import About from "../about/about";
+import Gallery from "../Gallery/Gallery";
+import Overlay from "react-image-overlay";
+import zIndex from "@material-ui/core/styles/zIndex";
+import baseURL from "../url";
 const LandingPage = () => {
+  const [state, setstate] = useState(false);
+  const [about, setabout] = useState([]);
+  const [gallery, setgallery] = useState([]);
+
+  useEffect(() => {
+    // about
+    axios
+      .get("http://localhost:8090/api/getsaboutcrud")
+      .then((result) => setabout(result.data));
+      axios
+      .get("http://localhost:8090/api/gallery/gets")
+      .then((result) => setgallery(result.data));
+    console.log(gallery);
+    // gallery
+  }, []);
+
+
+  const changeHandler = () => {
+    setstate(true);
+  };
+  const changeIT = () =>{
+    setstate(false)
+  }
+
   return (
     <div class="home home-agency one-page preloader transparent-header parallax-footer">
       <div id="wrap">
@@ -190,7 +219,7 @@ const LandingPage = () => {
           {/* <!--
         Home page slider
     --> */}
-          <Carousel showThumbs={false}  autoPlay={true} id="">
+          <Carousel showThumbs={false} autoPlay={true} id="">
             <div class="">
               <img
                 src="images/demo-images/coc-group-banner.jpg"
@@ -283,7 +312,7 @@ const LandingPage = () => {
         About our agency section
     --> */}
           <div class="section" id="agency">
-           <About/>
+            <About data={about} />
           </div>
 
           {/* <!--
@@ -485,7 +514,7 @@ const LandingPage = () => {
           {/* <!--
         Portfolio
     --> */}
-          <div class="section" id="gallery">
+          <div class="section" id="">
             <div class="portfolio">
               <div class="portfolio-header">
                 {/* <!-- class => style-left --> */}
@@ -516,819 +545,94 @@ const LandingPage = () => {
                 Portfolio justified gallery
             --> */}
 
-              <div class="portfolio-gallery">
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/champions-of-change-awards-by-brands-impact-1.jpg"
-                    alt="Brands Impact, champion of change 2019, COC Awards, Award, Awards Pranab Mukherjee, Shilpa Shetty"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Champions of Change Awards by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/champions-of-change-awards-by-brands-impact-1.jpg"
-                      alt="Brands Impact, champion of change 2019, COC Awards, Awards Pranab Mukherjee, Shilpa Shetty"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/champions-of-change-awards-by-brands-impact-2.jpg"
-                    alt="Brands Impact, champion of change 2019, COC Awards, Award, Awards Pranab Mukherjee, Shilpa Shetty"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Champions of Change Awards by Brands Impact - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/champions-of-change-awards-by-brands-impact-2.jpg"
-                      alt="Brands Impact, champion of change 2019, COC Awards, Awards Pranab Mukherjee, Shilpa Shetty"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  {/* <!-- panel-pie.jpg --> */}
-                  <img
-                    src="images/demo-images/indian-achievers-awards-by-brands-impact-1.jpg"
-                    alt="Brands Impact, champion of change 2019, COC Ramesh Pokhrayal, COC Award, Award"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Indian Achievers Awards by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/indian-achievers-awards-by-brands-impact-1.jpg"
-                      alt="Brands Impact, champion of change 2019, COC Ramesh Pokhrayal, COC Award, Award"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
+              {/* <Gallery data={gallery} /> */}
+              <div className="_gallery_wrp">
+                {gallery &&
+                  gallery.map((item, ind) => {
+                    return (
+                      <>
+                      <div class="_imageOverlay">
+                        <img
+                          src={baseURL+"/api/uploads/"+item.image}
+                          alt="Avatar"
+                          class="_overlay_image"
+                        />
+                        <div class="_caption_overlay">
+                          <div class="">
+                            <h4 style={{ fontSize: "3.0rem" }}>{item.title}</h4>
+                            <button onClick={changeHandler}>Zoom</button>
 
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/pride-of-nation-awards-by-brands-impact-1.jpg"
-                    alt="Brands Impact, champion of change 2019, COC, Rajnath Singh, Award"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pride of Nation Awards by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/pride-of-nation-awards-by-brands-impact-1.jpg"
-                      class="zoom lightbox"
-                      alt="Brands Impact, champion of change 2019, COC, Rajnath Singh, Awards, Award"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/pride-of-nation-awards-by-brands-impact-2.jpg"
-                    alt="Brands Impact, champion of change 2019, COC, Awards, Venkaiah Naidu"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pride of Nation Awards by Brands Impact - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/pride-of-nation-awards-by-brands-impact-2.jpg"
-                      alt="Brands Impact, champion of change 2019, COC, Award, Venkaiah Naidu"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/pride-of-nation-awards-by-brands-impact-3.jpg"
-                    alt="Brands Impact, champion of change 2019, COC, Awards, Rajnath Singh"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pride of Nation Awards by Brands Impact - 3
-                    </h4>
-                    <a
-                      href="images/demo-images/pride-of-nation-awards-by-brands-impact-3.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/golden-glory-awards-by-brands-impact-1.jpg"
-                    alt="Brands Impact, Golden Glory Awards, Award, Preity Zinta, Amol Monga, Ankita Sing"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Golden Glory Awards by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/golden-glory-awards-by-brands-impact-1.jpg"
-                      alt="Brands Impact, Golden Glory Awards, Award, Preity Zinta, Amol Monga, Ankita Sing"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/pratigya-social-impact-awards-by-brands-impact-1.jpg"
-                    alt="Brands Impact, Pride of Indian Education, PIE, Awards, Award, Amol Monga, Ankita Singh, D�a Mirza"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pratigya - Social Impact Awards by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/pratigya-social-impact-awards-by-brands-impact-1.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://globalpropertyawards.com/" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/international-quality-awards-edition-2-by-brands-impact-1.jpg"
-                    alt="Brands Impact, Award, Amol Monga, 
-                            Ankita Singh, International Quality Awards, IQA, Kareena Kapoo"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Quality Awards (Edition 2) by Brands Impact
-                      -1
-                    </h4>
-                    <a
-                      href="images/demo-images/international-quality-awards-edition-2-by-brands-impact-1.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags"></div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/international-quality-awards-edition-1-by-brands-impact-1.jpg"
-                    alt="Brands Impact, Awards, International Quality Awards, IQA, Sushmita Sen"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Quality Awards (Edition 1) by Brands Impact
-                      -1
-                    </h4>
-                    <a
-                      href="images/demo-images/international-quality-awards-edition-1-by-brands-impact-1.jpg"
-                      class="zoom lightbox"
-                      alt="Brands Impact, Award, International Quality Awards, IQA, Sushmita Sen"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/international-icon-awards-by-brands-impact-1.jpg"
-                    alt="Brands Impact, Award, International Icon Awards, Jacqueline Fernandez"
-                    style={{ width: "320px", height: "320px" }}
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Icon Awards by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/international-icon-awards-by-brands-impact-1.jpg"
-                      class="zoom lightbox"
-                      alt="Brands Impact, Award, International Icon Awards, Jacqueline Fernandez"
-                    ></a>
-                  </div>
-                </div>
-                <div class="item filter-development filter-apps">
-                  <img
-                    src="images/demo-images/right-choice-awards-by-brands-impact-1.jpg"
-                    alt="Brands Impact, Awards, International Quality Awards, IQA, Raveena Tandon"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Right Choice Awards by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/right-choice-awards-by-brands-impact-1.jpg"
-                      alt="Brands Impact, Award, International Quality Awards, IQA, Raveena Tandon"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="#" target="_blank">Success-Stories.in</a>--> */}
-                    </div>
-                  </div>
-                </div>
+                            <div class="tags"></div>
+                          </div>
+                        </div>
+                      </div>
 
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/golden-glory-awards-by-brands-impact-2.jpg"
-                    alt="Brands Impact, Award, Golden Glory Awards,Karishma Tanna"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Golden Glory awards by Brands Impact - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/golden-glory-awards-by-brands-impact-2.jpg"
-                      alt="Brands Impact, Award, Golden Glory Awards, Karishma Tanna"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
+                      {state == true ? (
+                  <div
+                  className="zoom_in_out"
+                  >
+                    <div style={{position:'fixed' , bottom:0 , left:0}}>
+                    <button onClick={changeIT}>close</button>
+
                     </div>
+                   <div style={{height:'600px' , width:'500px'}}>
+                   <img
+                          src={baseURL+"/api/uploads/"+item.image}
+                          alt="Avatar"
+                          class="_overlay_image"
+                        />
+                   </div>
                   </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/golden-glory-awards-by-brands-impact-3.jpg"
-                    alt="Brands Impact, Award, Golden Glory Awards, Mukesh Rishi"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Golden Glory awards by Brands Impact - 3
-                    </h4>
-                    <a
-                      href="images/demo-images/golden-glory-awards-by-brands-impact-3.jpg"
-                      alt="Brands Impact, Award, Golden Glory Awards, Mukesh Rishi"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/golden-glory-awards-by-brands-impact-4.jpg"
-                    alt="Brands Impact, Award, Golden Glory Awards"
-                  />
-                  <div class="caption">
-                    <h4>Golden Glory awards by Brands Impact - 4</h4>
-                    <a
-                      href="images/demo-images/golden-glory-awards-by-brands-impact-4.jpg"
-                      alt="Brands Impact, Award, Golden Glory Awards"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/golden-glory-awards-by-brands-impact-5.jpg"
-                    alt="Brands Impact, Award, Golden Glory Awards, Anita Hassanandani, Rohit Reddy"
-                  />
-                  <div class="caption">
-                    {/* <h4>Golden Glory awards by Brands Impact - 5</h4> */}
-                    <a
-                      href="images/demo-images/golden-glory-awards-by-brands-impact-5.jpg"
-                      alt="Brands Impact, Award, Golden Glory Awards, Anita Hassanandani, Rohit Reddy"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
+                ) : null}
+                      </>
+                    );
 
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/golden-glory-awards-by-brands-impact-6.jpg"
-                    alt="Brands Impact, Award, Golden Glory Awards,
-Rashami Desai, Vikas Gupta"
-                  />
-                  <div class="caption">
-                    <h4>Golden Glory awards by Brands Impact - 6</h4>
-                    <a
-                      href="images/demo-images/golden-glory-awards-by-brands-impact-6.jpg"
-                      alt="Brands Impact, Award, Golden Glory Awards, Rashami Desai, Vikas Gupta"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/international-quality-awards-edition-2-by-brands-impact-2.jpg"
-                    alt="Brands Impact, Award, International Quality Awards, IQA, kareena kapoor, Aamir Ali"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Quality Awards (Edition 2) by Brands Impact
-                      - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/international-quality-awards-edition-2-by-brands-impact-2.jpg"
-                      alt="Brands Impact, Award, International Quality Awards, IQA, kareena kapoor, Aamir Ali"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags"></div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/international-quality-awards-edition-2-by-brands-impact-3.jpg"
-                    alt="Brands Impact, Award, International Quality Awards, IQA, Adah Sharma, Rithvik Dhanjani"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Quality Awards (Edition 2) by Brands Impact
-                      - 3
-                    </h4>
-                    <a
-                      href="images/demo-images/international-quality-awards-edition-2-by-brands-impact-3.jpg"
-                      alt="Brands Impact, Award, International Quality Awards, IQA, Adah Sharma, Rithvik Dhanjani"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags"></div>
-                  </div>
-                </div>
-
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/international-quality-awards-edition-2-by-brands-impact-4.jpg"
-                    alt="Brands Impact, Award, International Quality Awards, IQA, kareena kapoor, Sunil Grover"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Quality Awards (Edition 2) by Brands Impact
-                      - 4
-                    </h4>
-                    <a
-                      href="images/demo-images/international-quality-awards-edition-2-by-brands-impact-4.jpg"
-                      alt="Brands Impact, Award, International Quality Awards, IQA, kareena kapoor, Sunil Grover"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags"></div>
-                  </div>
-                </div>
-
-                <div class="item filter-development filter-apps">
-                  <img
-                    src="images/demo-images/pratigya-social-impact-awards-by-brands-impact-2.jpg"
-                    alt="Brands Impact, Award, Pride of Indian Education, PIE, D�a Mirza, Laxmi Agarwal"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pratigya - Social Impact Awards by Brands Impact - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/pratigya-social-impact-awards-by-brands-impact-2.jpg"
-                      alt="Brands Impact, Award, Pride of Indian Education, PIE, D�a Mirza, Laxmi Agarwal"
-                      class="zoom lightbox"
-                    ></a>
-                  </div>
-                </div>
-
-                <div class="item filter-development filter-apps">
-                  <img
-                    src="images/demo-images/pride-of-indian-education-awards-by-brands-impact-1.jpg"
-                    alt="Brands Impact, Award, Pride of Indian Education, PIE, D�a Mirza,"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pride of Indian Education Awards by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/pride-of-indian-education-awards-by-brands-impact-1.jpg"
-                      alt="Brands Impact, Award, Pride of Indian Education, PIE, D�a Mirza,"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="#" target="_blank">Success-Stories.in</a>--> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="item filter-development filter-apps">
-                  <img
-                    src="images/demo-images/pratigya-social-impact-awards-by-brands-impact-3.jpg"
-                    alt="Brands Impact, Awards, Pratigya- Stand for A Cause, Poonam Dhillon, Kirron Kher"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pratigya -Social Impact Awards by Brands Impact - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/pratigya-social-impact-awards-by-brands-impact-3.jpg"
-                      alt="Brands Impact, Awards, Pratigya- Stand for A Cause, Poonam Dhillon, Kirron Kher"
-                      class="zoom lightbox"
-                    ></a>
-                  </div>
-                </div>
-
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/pratigya-social-impact-awards-by-brands-impact-4.jpg"
-                    alt="Brands Impact, Awards, Pratigya- Stand for A Cause, Manoj Tiwari, Kirron Kher"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pratigya -Social Impact Awards by Brands Impact - 3
-                    </h4>
-                    <a
-                      href="images/demo-images/pratigya-social-impact-awards-by-brands-impact-4.jpg"
-                      alt="Brands Impact, Awards, Pratigya- Stand for A Cause, Manoj Tiwari, Kirron Kher"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://globalpropertyawards.com/" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="item filter-development filter-apps">
-                  <img
-                    src="images/demo-images/pratigya-social-impact-awards-by-brands-impact-5.jpg"
-                    alt="Brands Impact, Awards, Pratigya- Stand for A Cause, Shyam Jaju"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pratigya -Social Impact Awards by Brands Impact - 4
-                    </h4>
-                    <a
-                      href="images/demo-images/pratigya-social-impact-awards-by-brands-impact-5.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="#" target="_blank">Success-Stories.in</a>--> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/international-quality-awards-edition-2-by-brands-impact-5.jpg"
-                    alt="Brands Impact, Award, International Quality Awards, IQA, Shama Sikander, James Milliron"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Quality Awards (Edition 2) by Brands Impact
-                      - 5
-                    </h4>
-                    <a
-                      href="images/demo-images/international-quality-awards-edition-2-by-brands-impact-5.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags"></div>
-                  </div>
-                </div>
-
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/international-quality-awards-edition-2-by-brands-impact-6.jpg"
-                    alt="Brands Impact, Award, International Quality Awards, IQA, Anil Sharma, Parth Samthaan"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Quality Awards (Edition 2) by Brands Impact
-                      - 6
-                    </h4>
-                    <a
-                      href="images/demo-images/international-quality-awards-edition-2-by-brands-impact-6.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags"></div>
-                  </div>
-                </div>
-
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/international-icon-awards-by-brands-impact-2.jpg"
-                    alt="Brands Impact, Awards, International Icon Awards, Amol Monga, Ankita Singh, Jacqueline Fernandez"
-                    style={{ width: "320px", height: "320px" }}
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Icon Awards by Brands Impact - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/international-icon-awards-by-brands-impact-2.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                  </div>
-                </div>
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/international-icon-awards-by-brands-impact-3.jpg"
-                    alt="Brands Impact, Awards, International Icon Awards, Prince Narula, Suyyash Rai"
-                    style={{ width: "320px", height: "320px" }}
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Icon Awards by Brands Impact - 3
-                    </h4>
-                    <a
-                      href="images/demo-images/international-icon-awards-by-brands-impact-3.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                  </div>
-                </div>
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/international-icon-awards-by-brands-impact-4.jpg"
-                    alt="Brands Impact, Awards, International Icon Awards,Karan Kundra, VJ Anusha"
-                    style={{ width: "320px", height: "320px" }}
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Icon Awards by Brands Impact - 4
-                    </h4>
-                    <a
-                      href="images/demo-images/international-icon-awards-by-brands-impact-4.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/pride-of-indian-education-awards-by-brands-impact-2.jpg"
-                    alt="Brands Impact, Award, Pride of Indian Education, PIE, Amol Monga, Ankita Singh, Mandira Bedi"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pride of Indian Education Awards by brands Impact - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/pride-of-indian-education-awards-by-brands-impact-2.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags"></div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/pride-of-indian-education-awards-by-brands-impact-3.jpg"
-                    alt="Brands Impact | Mandira Bedi | Pride of Indian Education Awards | PIE"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pride of Indian Education Awards by brands Impact - 3
-                    </h4>
-                    <a
-                      href="images/demo-images/pride-of-indian-education-awards-by-brands-impact-3.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags"></div>
-                  </div>
-                </div>
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/pride-of-indian-education-awards-by-brands-impact-4.jpg"
-                    alt="Brands Impact, Awards, Pride of Indian Education, PIE, Amol Monga, Ankita Singh, Mandira Bed"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Pride of Indian Education Awards by brands Impact - 4
-                    </h4>
-                    <a
-                      href="images/demo-images/pride-of-indian-education-awards-by-brands-impact-4.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags"></div>
-                  </div>
-                </div>
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/safar-kamyabi-ka-tv-show-by-brands-impact-1.jpg"
-                    alt="Brands Impact, Awards, Safar Kamyabi Ka, Aman Verma"
-                    style={{ width: "320px", height: "320px" }}
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Safar Kamyabi Ka TV Show by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/safar-kamyabi-ka-tv-show-by-brands-impact-1.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                  </div>
-                </div>
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/zameen-se-falak-tak-tv-show-by-brands-impact-1.jpg"
-                    alt="Brands Impact, Awards, Safar Kamyabi Ka, Sonu Sood, Shekhar Suman"
-                    style={{ width: "320px", height: "320px" }}
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Zameen Se Falak Tak TV Show by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/zameen-se-falak-tak-tv-show-by-brands-impact-1.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                  </div>
-                </div>
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/safar-kamyabi-ka-tv-show-by-brands-impact-2.jpg"
-                    alt="Brands Impact, Awards, Safar Kamyabi Ka, Manoj Tiwari"
-                    style={{ width: "320px", height: "320px" }}
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Safar Kamyabi Ka TV show by Brands Impact - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/safar-kamyabi-ka-tv-show-by-brands-impact-2.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                  </div>
-                </div>
-
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/zameen-se-falak-tak-tv-show-by-brands-impact-2.jpg"
-                    alt="Brands Impact, Awards, Zameen se Falak Tak, David Dhawan, Shekhar Suman, Amol Monga, Ankita Singh"
-                    style={{ width: "320px", height: "320px" }}
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Zameen se Falak Tak TV Show by Brands Impact - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/zameen-se-falak-tak-tv-show-by-brands-impact-2.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                  </div>
-                </div>
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/the-csr-journal-social-impact-awards-by-1.jpg"
-                    alt="Brands Impact, Awards, Amol Monga, Devendra Fadnavis"
-                    class="david_frn"
-                    id="am"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      The CSR Journal Social Impact Awards by - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/the-csr-journal-social-impact-awards-by-1.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                  </div>
-                </div>
-
-                <div class="item filter-development filter-apps">
-                  <img
-                    src="images/demo-images/right-choice-awards-by-brands-impact-2.jpg"
-                    alt="Brands Impact, Award, Pride of Indian Education, PIE, Shekhar Suman, Sunil Pal"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      Right Choice Awards by Brands Impact - 1
-                    </h4>
-                    <a
-                      href="images/demo-images/right-choice-awards-by-brands-impact-2.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="#" target="_blank">Success-Stories.in</a>--> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/international-quality-awards-edition-1-by-brands-impact-2.jpg"
-                    alt="Brands Impact, Award, International Quality Awards, IQA"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Quality Awards (Edition 1) by Brands Impact
-                      - 2
-                    </h4>
-                    <a
-                      href="images/demo-images/international-quality-awards-edition-1-by-brands-impact-2.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://globalpropertyawards.com/" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="item filter-graphic">
-                  <img
-                    src="images/demo-images/international-quality-awards-edition-1-by-brands-impact-3.jpg"
-                    alt="Brands Impact, Award, International Quality Awards, IQA"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Quality Awards (Edition 1) by Brands Impact
-                      - 3
-                    </h4>
-                    <a
-                      href="images/demo-images/international-quality-awards-edition-1-by-brands-impact-3.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="http://internationalqualityawards.com" target="_blank">InternationalQualityAwards.com</a>--> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="item filter-development filter-apps">
-                  <img
-                    src="images/demo-images/international-quality-awards-edition-1-by-brands-impact-4.jpg"
-                    alt="Brands Impact, Award, International Quality Awards, IQA"
-                  />
-                  <div class="caption">
-                    <h4 style={{ fontSize: "3.0rem" }}>
-                      International Quality Awards (Edition 1) by Brands Impact
-                      - 4
-                    </h4>
-                    <a
-                      href="images/demo-images/international-quality-awards-edition-1-by-brands-impact-4.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="#" target="_blank">Success-Stories.in</a>--> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/pratigya-social-impact-awards-5.jpg"
-                    alt="Brands Impact, Award, Pratigya- Stand foe A Cause, Poonam Dhillon"
-                  />
-                  <div class="caption">
-                    <h4>Pratigya - Social Impact Awards - 5</h4>
-                    <a
-                      href="images/demo-images/pratigya-social-impact-awards-5.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="#" target="_blank">Success-Stories.in</a>--> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/pratigya-stand-for-a-cause-tv-show-1.jpg"
-                    alt="Brands Impact, Award, Pratigya- Stand foe A Cause, Poonam Dhillon"
-                  />
-                  <div class="caption">
-                    <h4>Pratigya - Stand for a Cause TV show - 1</h4>
-                    <a
-                      href="images/demo-images/pratigya-stand-for-a-cause-tv-show-1.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="#" target="_blank">Success-Stories.in</a>--> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="item filter-web-design">
-                  <img
-                    src="images/demo-images/pratigya-stand-for-a-cause-tv-show-2.jpg"
-                    alt="Brands Impact, Award, Pratigya- Stand foe A Cause"
-                  />
-                  <div class="caption">
-                    <h4>Pratigya - Stand for a Cause TV show - 2</h4>
-                    <a
-                      href="images/demo-images/pratigya-stand-for-a-cause-tv-show-2.jpg"
-                      class="zoom lightbox"
-                    ></a>
-                    <div class="tags">
-                      {/* <!--<a href="#" target="_blank">Success-Stories.in</a>--> */}
-                    </div>
-                  </div>
-                </div>
+                  })}
+              
               </div>
+
+              {/* {gallery.length > 0 && gallery.map((item,ind)=>(
+                <div class="item " key={ind} >
+                <img
+                          src="images/demo-images/champions-of-change-awards-by-brands-impact-2.jpg"
+                          alt="Brands Impact, champion of change 2019, COC Awards, Award, Awards Pranab Mukherjee, Shilpa Shetty"
+                          />
+                        <div class="caption">
+                          <h4 style={{ fontSize: "3.0rem" }}>
+                            {item.title}
+                          </h4>
+                          <a
+                            href="images/demo-images/champions-of-change-awards-by-brands-impact-2.jpg"
+                            alt="Brands Impact, champion of change 2019, COC Awards, Awards Pranab Mukherjee, Shilpa Shetty"
+                            class="zoom lightbox"
+                            ></a>
+                          <div class="tags">
+                        
+                          </div>
+                        </div>
+                      </div>
+                        ))} */}
+              {/* <div class="item filter-graphic">
+                        <img
+                          src="images/demo-images/champions-of-change-awards-by-brands-impact-2.jpg"
+                          alt="Brands Impact, champion of change 2019, COC Awards, Award, Awards Pranab Mukherjee, Shilpa Shetty"
+                        />
+                        <div class="caption">
+                          <h4 style={{ fontSize: "3.0rem" }}>
+                            Champions of Change Awards by Brands Impact - 2
+                            {item.title}
+                          </h4>
+                          <a
+                            href="images/demo-images/champions-of-change-awards-by-brands-impact-2.jpg"
+                            alt="Brands Impact, champion of change 2019, COC Awards, Awards Pranab Mukherjee, Shilpa Shetty"
+                            class="zoom lightbox"
+                          ></a>
+                          <div class="tags">
+                       
+                          </div>
+                        </div>
+                      </div> */}
+              {/* </div> */}
 
               {/* <!--<div class="portfolio-pagination">
                 <a href="javascript:;" class="portfolio-load-more"><i class="icon"></i> <span>Load More Works</span></a>
